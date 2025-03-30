@@ -1,4 +1,4 @@
-# Remotion video
+Tweet Video Renderer
 
 <p align="center">
   <a href="https://github.com/remotion-dev/logo">
@@ -7,82 +7,66 @@
       <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
     </picture>
   </a>
-</p>
+</p>Welcome to the Tweet Video Renderer project! This project leverages Remotion to generate high-quality animated videos from tweet data.
 
-Welcome to your Remotion project!
+Commands
 
-## Commands
+Install Dependencies
 
-**Install Dependencies**
-
-```console
 npm i
-```
 
-**Start Preview**
+Start Preview
 
-```console
 npm run dev
-```
 
-**Render video**
+Render Video
 
-```console
-npx remotion render
-```
+npx remotion render src/index.tsx out.mp4
 
-**Upgrade Remotion**
+Upgrade Remotion
 
-```console
 npx remotion upgrade
-```
 
-## Captioning
+Features
 
-Replace the `sample-video.mp4` with your video file.
-Caption all the videos in you `public` by running the following command:
+Dynamic rendering of tweet content with smooth animations.
 
-```console
-node sub.mjs
-```
+Background blur effect for a stylish look.
 
-Only caption a specific video:
+Auto-scrolling for long tweets.
 
-```console
-node sub.mjs <path-to-video-file>
-```
+Supports profile pictures and post images.
 
-Only caption a specific folder:
+Fully customizable with React and Remotion.
 
-```console
-node sub.mjs <path-to-folder>
-```
 
-## Configure Whisper.cpp
+Configuration
 
-Captioning will download Whisper.cpp and the 1.5GB big `medium.en` model. To configure which model is being used, you can configure the variables in `whisper-config.mjs`.
+You can customize the tweet rendering by modifying the Tweet component in src/tweet.tsx.
 
-### Non-English languages
+Props
 
-To support non-English languages, you need to change the `WHISPER_MODEL` variable in `whisper-config.mjs` to a model that does not have a `.en` sufix.
+Common Issues
 
-## Rendering on Lambda
+TypeError: undefined was passed to staticFile()
 
-If you plan on deploying this template to Lambda, make sure to enable the [`--enable-v5-runtime`](https://www.remotion.dev/docs/lambda/cli/functions#--enable-v5-runtime) flag.  
-This will enable a Chrome version which supports the `paint-order` CSS property that is required for this template to render properly.
+Ensure that the postImage value is properly defined before passing it to staticFile(). If postImage is optional, use a fallback:
 
-## Docs
+backgroundImage: postImage ? `url(${staticFile(postImage)})` : "none",
 
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
+Docs
 
-## Help
+Get started with Remotion by reading the fundamentals page.
 
-We provide help on our [Discord server](https://remotion.dev/discord).
+Help
 
-## Issues
+We provide help on our Discord server.
 
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
+Issues
 
-## License
+Found an issue with the Tweet Video Renderer? File an issue here.
 
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+License
+
+This project follows the Remotion licensing terms. Read the terms here.
+
