@@ -7,7 +7,7 @@ Tweet Video Renderer
       <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
     </picture>
   </a>
-</p>Welcome to the Tweet Video Renderer project! This project leverages Remotion to generate high-quality animated videos from tweet data.
+</p>Welcome to the Tweet Video Renderer project! This project utilizes Remotion to generate animated videos based on tweet-like content.
 
 Commands
 
@@ -21,7 +21,7 @@ npm run dev
 
 Render Video
 
-npx remotion render src/index.tsx out.mp4
+npx remotion render
 
 Upgrade Remotion
 
@@ -29,30 +29,26 @@ npx remotion upgrade
 
 Features
 
-Dynamic rendering of tweet content with smooth animations.
+Render tweet-styled videos with profile images, tweet content, and background images.
 
-Background blur effect for a stylish look.
+Supports dynamic animations for long tweet texts.
 
-Auto-scrolling for long tweets.
+Blur background effect for aesthetic visuals.
 
-Supports profile pictures and post images.
-
-Fully customizable with React and Remotion.
+Fully customizable via props.
 
 
-Configuration
+Usage
 
-You can customize the tweet rendering by modifying the Tweet component in src/tweet.tsx.
+Replace the default tweet content by modifying Tweet.tsx props. Example:
 
-Props
-
-Common Issues
-
-TypeError: undefined was passed to staticFile()
-
-Ensure that the postImage value is properly defined before passing it to staticFile(). If postImage is optional, use a fallback:
-
-backgroundImage: postImage ? `url(${staticFile(postImage)})` : "none",
+<Tweet 
+  posterName="John Doe" 
+  postContent="This is a sample tweet rendered as a video." 
+  postDate="March 30, 2025" 
+  profileImage="/path/to/profile.jpg" 
+  postImage="/path/to/background.jpg" 
+/>
 
 Docs
 
@@ -64,9 +60,9 @@ We provide help on our Discord server.
 
 Issues
 
-Found an issue with the Tweet Video Renderer? File an issue here.
+Found an issue with this project? File an issue here.
 
 License
 
-This project follows the Remotion licensing terms. Read the terms here.
+Note that for some entities a company license is needed. Read the terms here.
 
