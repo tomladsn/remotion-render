@@ -1,4 +1,4 @@
-Tweet Video Renderer
+# Remotion video
 
 <p align="center">
   <a href="https://github.com/remotion-dev/logo">
@@ -7,62 +7,82 @@ Tweet Video Renderer
       <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
     </picture>
   </a>
-</p>Welcome to the Tweet Video Renderer project! This project utilizes Remotion to generate animated videos based on tweet-like content.
+</p>
 
-Commands
+Welcome to your Remotion project!
 
-Install Dependencies
+## Commands
 
+**Install Dependencies**
+
+```console
 npm i
+```
 
-Start Preview
+**Start Preview**
 
+```console
 npm run dev
+```
 
-Render Video
+**Render video**
 
+```console
 npx remotion render
+```
 
-Upgrade Remotion
+**Upgrade Remotion**
 
+```console
 npx remotion upgrade
+```
 
-Features
+## Captioning
 
-Render tweet-styled videos with profile images, tweet content, and background images.
+Replace the `sample-video.mp4` with your video file.
+Caption all the videos in you `public` by running the following command:
 
-Supports dynamic animations for long tweet texts.
+```console
+node sub.mjs
+```
 
-Blur background effect for aesthetic visuals.
+Only caption a specific video:
 
-Fully customizable via props.
+```console
+node sub.mjs <path-to-video-file>
+```
 
+Only caption a specific folder:
 
-Usage
+```console
+node sub.mjs <path-to-folder>
+```
 
-Replace the default tweet content by modifying Tweet.tsx props. Example:
+## Configure Whisper.cpp
 
-<Tweet 
-  posterName="John Doe" 
-  postContent="This is a sample tweet rendered as a video." 
-  postDate="March 30, 2025" 
-  profileImage="/path/to/profile.jpg" 
-  postImage="/path/to/background.jpg" 
-/>
+Captioning will download Whisper.cpp and the 1.5GB big `medium.en` model. To configure which model is being used, you can configure the variables in `whisper-config.mjs`.
 
-Docs
+### Non-English languages
 
-Get started with Remotion by reading the fundamentals page.
+To support non-English languages, you need to change the `WHISPER_MODEL` variable in `whisper-config.mjs` to a model that does not have a `.en` sufix.
 
-Help
+## Rendering on Lambda
 
-We provide help on our Discord server.
+If you plan on deploying this template to Lambda, make sure to enable the [`--enable-v5-runtime`](https://www.remotion.dev/docs/lambda/cli/functions#--enable-v5-runtime) flag.  
+This will enable a Chrome version which supports the `paint-order` CSS property that is required for this template to render properly.
 
-Issues
+## Docs
 
-Found an issue with this project? File an issue here.
+Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
 
-License
+## Help
 
-Note that for some entities a company license is needed. Read the terms here.
+We provide help on our [Discord server](https://remotion.dev/discord).
 
+## Issues
+
+Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
+
+## License
+
+Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).

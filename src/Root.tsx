@@ -7,6 +7,8 @@ interface TweetProps {
   postContent: string;
   postDate: string;
   profileImage?: string; // <-- Add profile image URL
+  postImage?: string; // <-- Add post image URL
+  titleName?: string; // <-- Add title name
 }
 
 // Default placeholder tweet
@@ -24,7 +26,7 @@ export const RemotionRoot: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3000/scrape?url=https://x.com/MattWalshBlog/status/1893745437665792303'
+          'http://localhost:3000/scrape?url=https://x.com/DavidHundeyin/status/1904654839201562656'
         );
     
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -36,7 +38,9 @@ export const RemotionRoot: React.FC = () => {
           posterName: data.posterName || 'Unknown',
           postContent: data.postContent || 'No content available.',
         postDate: data.date || 'Unknown date', 
-          profileImage: data.profileImage || '', // <-- Store profile image
+          profileImage: data.profileImage || '',
+          postImage: data.postImage || '', // Default to an empty string if not provided
+          titleName: data.titleName || 'Unknown',
         });
         console.log("Fetched data:", data);        
       } catch (err) {
