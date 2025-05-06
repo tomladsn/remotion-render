@@ -1,10 +1,19 @@
-import { title } from "process";
-import { useEffect, useState } from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Video } from "remotion";
+import React, { useEffect, useState } from "react";
+import {
+  AbsoluteFill,
+  useCurrentFrame,
+  useVideoConfig,
+  Video,
+} from "remotion";
+import {
+  TransitionSeries,
+  linearTiming,
+} from "@remotion/transitions";
+import { slide } from "@remotion/transitions/slide";
 
 const API_KEYS = {
   pexels: "akUc9Kqe1bQLADZfTwqlCfXm9SL1mH06CzMCFPPBzdFfK4VkUq54CePG",
-  pixabay: "49368787-d11ffb6abacbe78a4ec5ff1ab"
+  pixabay: "49368787-d11ffb6abacbe78a4ec5ff1ab",
 };
 
 interface VideoFile {
@@ -74,10 +83,11 @@ export const Tweet: React.FC<TweetProps> = ({
   titleName = "unknown",
 }) => {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const { fps } = useVideoConfig();
 
   useEffect(() => {
     const loadVideo = async () => {
-      if (postImage === 'Nil') {
+      if (postImage === "Nil") {
         const keyword = postContent.split(" ")[0] || "nature";
         const url = await fetchStockVideo(keyword);
         setVideoUrl(url);
@@ -86,6 +96,14 @@ export const Tweet: React.FC<TweetProps> = ({
 
     loadVideo();
   }, [postContent, postImage]);
+
+  const segmentSize = 150;
+  const words = postContent.trim().split(/\s+/);
+  const wordSegments: string[] = [];
+  
+  for (let i = 0; i < words.length; i += segmentSize) {
+    wordSegments.push(words.slice(i, i + segmentSize).join(" "));
+  }
 
   return (
     <AbsoluteFill
@@ -99,7 +117,7 @@ export const Tweet: React.FC<TweetProps> = ({
         overflow: "hidden",
       }}
     >
-      {postImage && postImage !== 'Profile image selector not found' ? (
+      {postImage && postImage !== "Profile image selector not found" ? (
         <img
           src={postImage}
           alt="Post background"
@@ -124,7 +142,6 @@ export const Tweet: React.FC<TweetProps> = ({
               width: "100%",
               height: "100%",
               objectFit: "fill",
-
             }}
           />
         )
@@ -133,17 +150,17 @@ export const Tweet: React.FC<TweetProps> = ({
       <div
         style={{
           position: "relative",
-          width: 900, // Increased width
-          height: 500, // Increased height
-          background: "linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(40, 40, 40, 0.9))", // Darker background for better contrast
-          color: "#FFFFFF", // Brighter text color
-          borderRadius: 25, // Slightly larger border radius
-          padding: 40, // Increased padding
-          boxShadow: "0px 8px 30px rgba(0, 0, 0, 0.8), 0px 0px 15px rgba(0, 255, 255, 0.3)", // Enhanced shadow
-          border: "1px solid rgba(255, 255, 255, 0.2)", // Subtle border
-          backdropFilter: "blur(15px)", // Increased blur
+          width: 900,
+          height: 500,
+          background: "linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(40, 40, 40, 0.9))",
+          color: "#FFFFFF",
+          borderRadius: 25,
+          padding: 40,
+          boxShadow: "0px 8px 30px rgba(0, 0, 0, 0.8), 0px 0px 15px rgba(0, 255, 255, 0.3)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(15px)",
           WebkitBackdropFilter: "blur(15px)",
-          overflow: "hidden", // Ensure no overflow
+          overflow: "hidden",
         }}
       >
         {/* Profile Section */}
@@ -153,39 +170,55 @@ export const Tweet: React.FC<TweetProps> = ({
               src={profileImage}
               alt={`${posterName}'s profile`}
               style={{
-                width: 80, // Larger profile image
+                width: 80,
                 height: 80,
                 borderRadius: "50%",
                 objectFit: "cover",
-                border: "3px solid #fff", // Thicker border for visibility
+                border: "3px solid #fff",
               }}
             />
           )}
           <div>
-          <div style={{ fontWeight: "bold", fontSize: 28, color: "#ffffff" }}>{titleName}</div>
+            <div style={{ fontWeight: "bold", fontSize: 28, color: "#ffffff" }}>{titleName}</div>
             <div style={{ fontWeight: "bold", fontSize: 28, color: "#ffffff" }}>{posterName}</div>
             <div style={{ color: "#ffffff", fontSize: 20 }}>{postDate}</div>
           </div>
         </div>
 
-        {/* Post Content */}
+        {/* Post Content with Transition */}
+        <TransitionSeries>
+  {wordSegments.map((segment, index) => (
+    <React.Fragment key={index}>
+      <TransitionSeries.Sequence durationInFrames={fps * 10}>
         <div
           style={{
-            fontSize: 24, // Larger text
-            lineHeight: 1.8,
-            marginTop: 10,
-            color: "#ffffff", // Brighter text color
-            maxHeight: "none", // Ensure no scroll
-            overflow: "hidden", // Prevent overflow
-            borderBottomRightRadius: "50px", // Border radius at bottom right
-             padding: 20,
-           
+            fontSize: 22,
+            lineHeight: 1.2,
+            margin: 10,
+            marginTop: 100,
+            color: "#ffffff",
+            height: 300,
+            position: "relative",
+            borderBottomRightRadius: "50px",
+            padding: 20,
+            opacity: 1,
+            transition: "opacity 1s ease-in-out",
           }}
         >
-          {postContent}
+          {segment}
         </div>
-      </div>
+      </TransitionSeries.Sequence>
 
+      {index < wordSegments.length - 1 && (
+        <TransitionSeries.Transition
+          presentation={slide()}
+          timing={linearTiming({ durationInFrames: 30 })}
+        />
+      )}
+    </React.Fragment>
+  ))}
+</TransitionSeries>
+      </div>
     </AbsoluteFill>
   );
 };
