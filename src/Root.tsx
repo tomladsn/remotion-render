@@ -1,7 +1,7 @@
 import { Composition } from 'remotion';
 import Tweet from './tweet';
 import { useEffect, useState } from 'react';
-
+import Tew from './tew'
 interface TweetProps {
   posterName: string;
   postContent: string;
@@ -57,7 +57,7 @@ export const RemotionRoot: React.FC = () => {
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <Composition
         id="TweetVideo"
-        component={Tweet}
+        component={Tew}
         durationInFrames={610}
         fps={30}
         width={1080}
